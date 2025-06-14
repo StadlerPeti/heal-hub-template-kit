@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
@@ -61,14 +60,15 @@ const Navbar = () => {
   const handleScrollToTop = (
     e: React.MouseEvent<HTMLAnchorElement, MouseEvent>
   ) => {
-    if (location.pathname === "/" && !window.location.hash) {
+    // Mindig scrollozzon a tetejére HOME-ra kattintva, ha a főoldalon vagyunk (bármilyen hash esetén)
+    if (location.pathname === "/") {
       e.preventDefault();
       window.scrollTo({ top: 0, behavior: "smooth" });
       setOpen(false);
       window.history.replaceState(null, "", "/");
-      setActiveHash(""); // Üres hash
+      setActiveHash(""); // Üres hash lesz aktív
     }
-    // If not on home or there’s hash, let Link handle the navigation as normal
+    // Más oldalra váltásnál a Link végzi a navigációt.
   };
 
   // Helper to check if a link is active for public (Home/Services/About...)
@@ -301,4 +301,3 @@ const Navbar = () => {
 };
 
 export default Navbar;
-
