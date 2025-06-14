@@ -22,17 +22,15 @@ const Navbar = () => {
   const { isAuthenticated, logout } = useAuth();
   const navigate = useNavigate();
 
-  // Drawer nyitása/zárása mobilon
   const [open, setOpen] = useState(false);
 
-  // A navigációs lista, újrahasznosítva desktopon és mobil drawer-ben is
   const navList = (
     <>
       {navLinks.map((link) => (
         <li key={link.name}>
           <a
             href={link.href}
-            className="hover:text-teal-500 transition duration-200"
+            className="hover:text-teal-500 transition duration-200 block px-3 py-2 rounded-lg"
             onClick={() => setOpen(false)}
           >
             {link.name}
@@ -43,7 +41,7 @@ const Navbar = () => {
         <li>
           <Link
             to="/upload"
-            className={`hover:text-teal-500 transition duration-200${
+            className={`hover:text-teal-500 transition duration-200 block px-3 py-2 rounded-lg${
               location.pathname === "/upload"
                 ? " text-teal-600 font-bold underline underline-offset-4"
                 : ""
@@ -57,7 +55,6 @@ const Navbar = () => {
     </>
   );
 
-  // Auth gombokat is újrahasznosítjuk mobil drawer-ben
   const authControls = !isAuthenticated ? (
     <Link
       to="/login"
@@ -95,7 +92,7 @@ const Navbar = () => {
         <ul className="hidden md:flex items-center space-x-8 font-medium text-gray-700">{navList}</ul>
 
         <div className="flex gap-2">
-          {/* FELHASZNÁLÓ által TÁMOGATOTT feltételek vezérlése DESKTOPON */}
+          {/* Upload gomb, Login/Logout csak DESKTOPON */}
           {isAuthenticated && (
             <Link
               to="/upload"
@@ -134,9 +131,12 @@ const Navbar = () => {
                 <Menu size={28} />
               </button>
             </DrawerTrigger>
-            <DrawerContent>
-              <DrawerHeader>
-                <div className="flex items-center space-x-2 justify-between w-full">
+            <DrawerContent
+              className="fixed inset-0 right-0 z-[100] bg-white p-0 m-0 flex flex-col w-full max-w-none h-full !rounded-none transition-transform duration-300"
+              style={{ padding: 0, margin: 0 }}
+            >
+              <div className="flex flex-col h-full w-full">
+                <DrawerHeader className="flex items-center justify-between px-6 pt-6 pb-4">
                   <Link
                     to="/"
                     className="text-gray-900 font-black text-2xl font-sans select-none"
@@ -150,14 +150,61 @@ const Navbar = () => {
                       aria-label="Close menu"
                       onClick={() => setOpen(false)}
                     >
-                      {/* X bezárás */}
                       <span className="text-2xl">&times;</span>
                     </button>
                   </DrawerClose>
+                </DrawerHeader>
+                <ul className="flex flex-col text-lg grow gap-2 px-6 py-2 mt-2 mb-6">
+                  {navLinks.map((link) => (
+                    <li key={link.name}>
+                      <a
+                        href={link.href}
+                        className="block w-full py-3 px-4 text-gray-800 rounded-lg hover:bg-gray-100 font-medium transition"
+                        onClick={() => setOpen(false)}
+                      >
+                        {link.name}
+                      </a>
+                    </li>
+                  ))}
+                  {isAuthenticated && (
+                    <li>
+                      <Link
+                        to="/upload"
+                        className={`block w-full py-3 px-4 text-gray-800 rounded-lg hover:bg-teal-50 font-semibold transition${
+                          location.pathname === "/upload"
+                            ? " text-teal-600 underline underline-offset-4"
+                            : ""
+                        }`}
+                        onClick={() => setOpen(false)}
+                      >
+                        Upload document
+                      </Link>
+                    </li>
+                  )}
+                </ul>
+                <div className="mt-auto px-6 pb-8 pt-2 border-t border-gray-100">
+                  {!isAuthenticated ? (
+                    <Link
+                      to="/login"
+                      className="inline-flex items-center gap-2 bg-transparent border border-teal-500 text-teal-700 px-6 py-3 rounded-full font-semibold hover:bg-teal-50 w-full justify-center transition"
+                      onClick={() => setOpen(false)}
+                    >
+                      Login
+                    </Link>
+                  ) : (
+                    <button
+                      onClick={() => {
+                        logout();
+                        navigate("/");
+                        setOpen(false);
+                      }}
+                      className="inline-flex items-center gap-2 bg-transparent border border-red-400 text-red-600 px-6 py-3 rounded-full font-semibold hover:bg-red-100 w-full justify-center transition"
+                    >
+                      Logout
+                    </button>
+                  )}
                 </div>
-              </DrawerHeader>
-              <ul className="flex flex-col space-y-4 text-lg my-8">{navList}</ul>
-              <div className="mt-2">{authControls}</div>
+              </div>
             </DrawerContent>
           </Drawer>
         </div>
@@ -167,4 +214,3 @@ const Navbar = () => {
 };
 
 export default Navbar;
-
