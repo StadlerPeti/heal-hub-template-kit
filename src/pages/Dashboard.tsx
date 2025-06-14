@@ -216,16 +216,12 @@ const Dashboard = () => {
                 <div className="divide-y divide-gray-200">
                   {documents.map((doc) => (
                     <div key={doc.id}>
-                      {/* Fő sor: erre jön a hover hatás */}
-                      <div
-                        className="flex items-center py-5 transition-colors hover:bg-gray-50"
-                        // csak erre alkalmazzuk a szürkítést
-                      >
+                      {/* Fő sor: már nincs hover, nincs méret oszlop */}
+                      <div className="flex items-center py-5">
                         <span className="flex-1 flex items-center font-semibold text-lg pl-4">
                           {doc.name}
                         </span>
                         <span className="w-40 text-left text-base text-gray-700">{doc.uploadedAt}</span>
-                        <span className="w-24 text-left text-base text-gray-700">{doc.size}</span>
                         <Button
                           size="sm"
                           variant="outline"
