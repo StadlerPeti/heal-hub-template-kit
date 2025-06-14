@@ -1,3 +1,4 @@
+
 import React from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
@@ -50,7 +51,7 @@ const Footer = () => {
           {/* LOGO + MINI LEÍRÁS */}
           <div className="flex flex-col gap-3">
             <span className="text-white font-black text-3xl tracking-tight font-sans flex items-center gap-2">
-              Medica<span className="text-teal-400">Pro</span>
+              Medi<span className="text-teal-400">Pro</span>
             </span>
             <span className="block text-zinc-400 font-medium">
               Magyarország vezető magán egészségügyi központja.<br />Szakértelem, bizalom, innováció.
@@ -121,7 +122,7 @@ const Footer = () => {
             <a href="mailto:info@medicapro.hu" className="hover:text-teal-400">info@medicapro.hu</a>
           </div>
           <div className="text-zinc-600 text-sm">
-            © {new Date().getFullYear()} MedicaPro Clinic. Minden jog fenntartva.
+            © {new Date().getFullYear()} MediPro Clinic. Minden jog fenntartva.
           </div>
         </div>
       </div>

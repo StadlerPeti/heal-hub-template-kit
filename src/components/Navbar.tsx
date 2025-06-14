@@ -189,7 +189,7 @@ const Navbar = () => {
             className="text-gray-900 font-black text-2xl tracking-tight font-sans select-none"
             onClick={() => setOpen(false)}
           >
-            Medica<span className="text-teal-500">Pro</span>
+            Medi<span className="text-teal-500">Pro</span>
           </Link>
         </div>
 
@@ -241,7 +241,7 @@ const Navbar = () => {
                     className="text-gray-900 font-black text-2xl font-sans select-none"
                     onClick={() => setOpen(false)}
                   >
-                    Medica<span className="text-teal-500">Pro</span>
+                    Medi<span className="text-teal-500">Pro</span>
                   </Link>
                   <DrawerClose asChild>
                     <button
