@@ -1,6 +1,7 @@
 
 import React from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useAuth } from "@/hooks/useAuth";
 
 const navLinks = [
   { name: "Services", href: "#services" },
@@ -10,6 +11,8 @@ const navLinks = [
 
 const Navbar = () => {
   const location = useLocation();
+  const { isAuthenticated, logout } = useAuth();
+  const navigate = useNavigate();
 
   return (
     <header className="w-full fixed top-0 left-0 z-30 bg-white/90 border-b border-zinc-100 backdrop-blur-lg shadow-md">
@@ -27,23 +30,47 @@ const Navbar = () => {
               </a>
             </li>
           ))}
-          <li>
+          {isAuthenticated && (
+            <li>
+              <Link
+                to="/upload"
+                className={`hover:text-teal-500 transition duration-200${
+                  location.pathname === "/upload" ? " text-teal-600 font-bold underline underline-offset-4" : ""
+                }`}
+              >
+                Upload document
+              </Link>
+            </li>
+          )}
+        </ul>
+        <div className="flex gap-2">
+          {isAuthenticated && (
             <Link
               to="/upload"
-              className={`hover:text-teal-500 transition duration-200${
-                location.pathname === "/upload" ? " text-teal-600 font-bold underline underline-offset-4" : ""
-              }`}
+              className="hidden md:inline-flex items-center gap-2 ml-2 bg-gradient-to-br from-teal-500 to-teal-400 text-white px-6 py-2 rounded-full shadow-xl font-semibold hover:scale-105 hover:from-teal-600 hover:to-teal-500 transition-all duration-200"
             >
-              Upload document
+              <span>Upload</span>
             </Link>
-          </li>
-        </ul>
-        <Link
-          to="/upload"
-          className="hidden md:inline-flex items-center gap-2 ml-2 bg-gradient-to-br from-teal-500 to-teal-400 text-white px-6 py-2 rounded-full shadow-xl font-semibold hover:scale-105 hover:from-teal-600 hover:to-teal-500 transition-all duration-200"
-        >
-          <span>Upload</span>
-        </Link>
+          )}
+          {!isAuthenticated ? (
+            <Link
+              to="/login"
+              className="inline-flex items-center gap-2 bg-transparent border border-teal-500 text-teal-700 px-4 py-2 rounded-full font-semibold hover:bg-teal-50 transition-all duration-200"
+            >
+              Login
+            </Link>
+          ) : (
+            <button
+              onClick={() => {
+                logout();
+                navigate("/");
+              }}
+              className="inline-flex items-center gap-2 bg-transparent border border-red-400 text-red-600 px-4 py-2 rounded-full font-semibold hover:bg-red-100 transition-all duration-200"
+            >
+              Logout
+            </button>
+          )}
+        </div>
       </nav>
     </header>
   );

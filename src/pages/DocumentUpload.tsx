@@ -3,11 +3,18 @@ import React, { useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import { useAuth } from "@/hooks/useAuth";
+import { Navigate } from "react-router-dom";
 
 const DocumentUpload = () => {
   const inputRef = useRef<HTMLInputElement | null>(null);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [success, setSuccess] = useState(false);
+  const { isAuthenticated } = useAuth();
+
+  if (!isAuthenticated) {
+    return <Navigate to="/login" replace />;
+  }
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files?.[0]) {
@@ -19,7 +26,6 @@ const DocumentUpload = () => {
   const handleUpload = (e: React.FormEvent) => {
     e.preventDefault();
     if (selectedFile) {
-      // Here we could upload the file. For now, just show success.
       setSuccess(true);
     }
   };
