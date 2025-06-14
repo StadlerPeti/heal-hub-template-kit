@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
 import { Menu } from "lucide-react";
@@ -22,22 +22,62 @@ const adminLinks = [
   { name: "Upload document", to: "/upload" },
 ];
 
+const sections = [
+  { hash: "", id: "hero", name: "Home" },
+  { hash: "#services", id: "services", name: "Services" },
+  { hash: "#about", id: "about", name: "About" },
+  { hash: "#contact", id: "contact", name: "Contact" },
+];
+
 const Navbar = () => {
   const location = useLocation();
   const { isAuthenticated, logout } = useAuth();
   const navigate = useNavigate();
 
   const [open, setOpen] = useState(false);
-
-  // ÚJ: Az aktuális hash külön kezelése, hogy biztos legyen rerender kattintás után is.
   const [activeHash, setActiveHash] = useState<string>(window.location.hash);
 
-  // Ha böngészőn hash váltás történik, frissítsük le a state-et.
+  // === ÚJ: Scrollspy megvalósítás ===
   useEffect(() => {
-    const onHashChange = () => setActiveHash(window.location.hash);
+    if (location.pathname !== "/") return;
+
+    const getCurrentSection = () => {
+      const scrollPosition = window.scrollY + 100; // 100px offset a nav magasság miatt
+      let found = "";
+      for (let i = sections.length - 1; i >= 0; i--) {
+        const section = sections[i];
+        const el = section.id === "hero" ? document.body : document.getElementById(section.id);
+        if (el) {
+          // Hero-nál a lap teteje, a többinél az elem offset
+          const elTop = section.id === "hero" ? 0 : el.offsetTop;
+          if (scrollPosition >= elTop) {
+            found = section.hash;
+            break;
+          }
+        }
+      }
+      return found;
+    };
+
+    const onScroll = () => {
+      const currentHash = getCurrentSection();
+      setActiveHash(currentHash);
+    };
+
+    window.addEventListener("scroll", onScroll, { passive: true });
+
+    // Ha linken keresztül navigálsz, vagy visszalépsz, akkor is frissítsük:
+    const onHashChange = () => setActiveHash(window.location.hash || "");
     window.addEventListener("hashchange", onHashChange);
-    return () => window.removeEventListener("hashchange", onHashChange);
-  }, []);
+
+    // Szükség lehet a betöltés utáni első frissítésre is
+    onScroll();
+
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("hashchange", onHashChange);
+    };
+  }, [location.pathname]);
 
   // Smooth scroll handler hash linkekhez
   const handleSmoothScroll = (
@@ -51,7 +91,7 @@ const Navbar = () => {
     if (element) {
       element.scrollIntoView({ behavior: "smooth" });
       window.history.replaceState(null, "", href);
-      setActiveHash(href); // Aktív hash is frissül!
+      setActiveHash(href);
     }
     setOpen(false);
   };
@@ -60,30 +100,26 @@ const Navbar = () => {
   const handleScrollToTop = (
     e: React.MouseEvent<HTMLAnchorElement, MouseEvent>
   ) => {
-    // Mindig scrollozzon a tetejére HOME-ra kattintva, ha a főoldalon vagyunk (bármilyen hash esetén)
     if (location.pathname === "/") {
       e.preventDefault();
       window.scrollTo({ top: 0, behavior: "smooth" });
       setOpen(false);
       window.history.replaceState(null, "", "/");
-      setActiveHash(""); // Üres hash lesz aktív
+      setActiveHash(""); // Home
     }
-    // Más oldalra váltásnál a Link végzi a navigációt.
   };
 
   // Helper to check if a link is active for public (Home/Services/About...)
   const isPublicLinkActive = (link: any) => {
     if (link.to === "/") {
-      // Home link: csak akkor aktív, ha a path '/' és nincs hash
+      // Home aktív, ha a hero szekcióban vagyunk (felül)
       return location.pathname === "/" && !activeHash;
     }
     if (link.to) {
       return location.pathname === link.to;
     } else if (link.href) {
-      return (
-        location.pathname === "/" &&
-        activeHash === link.href // az új state-ből olvasunk!
-      );
+      // Az aktív hash alapján
+      return location.pathname === "/" && activeHash === link.href;
     }
     return false;
   };
