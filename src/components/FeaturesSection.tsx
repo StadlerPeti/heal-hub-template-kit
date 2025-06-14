@@ -35,19 +35,22 @@ const features = [
 ];
 
 const FeaturesSection = () => (
-  <section id="services" className="py-16 bg-white">
-    <div className="max-w-7xl mx-auto px-8">
-      <h2 className="text-3xl font-bold text-center text-blue-700 mb-3">
+  <section id="services" className="py-20 bg-gradient-to-b from-white via-zinc-50 to-white">
+    <div className="max-w-7xl mx-auto px-6">
+      <h2 className="text-3xl md:text-4xl font-extrabold text-center text-gray-900 mb-3 font-sans">
         Our Services
       </h2>
-      <p className="text-center text-gray-600 mb-12 max-w-xl mx-auto">
-        We offer a full spectrum of medical services, staffed by caring and credentialed professionals—here's how we help you thrive.
+      <p className="text-center text-gray-600 mb-14 max-w-xl mx-auto text-lg">
+        We offer a full spectrum of medical services, delivered with care and attention in a beautiful environment.
       </p>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10">
         {features.map(f => (
-          <div key={f.title} className="bg-blue-50 hover:shadow-lg transition-shadow rounded-2xl p-8 flex flex-col items-center text-center animate-fade-in">
-            <span className="text-4xl mb-4">{f.icon}</span>
-            <h3 className="text-xl font-semibold text-blue-900 mb-2">{f.title}</h3>
+          <div
+            key={f.title}
+            className="bg-white rounded-3xl shadow-xl border border-zinc-100 p-8 flex flex-col items-center text-center transition-transform duration-200 hover:scale-105 hover:shadow-2xl"
+          >
+            <span className="text-[2.5rem] mb-5">{f.icon}</span>
+            <h3 className="text-xl font-semibold text-gray-900 mb-2 font-sans">{f.title}</h3>
             <p className="text-gray-700">{f.desc}</p>
           </div>
         ))}
