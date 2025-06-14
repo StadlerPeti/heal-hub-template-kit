@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 
 const initialState = { name: "", email: "", message: "" };
@@ -19,7 +18,7 @@ const ContactForm = () => {
   }
 
   return (
-    <section id="contact" className="py-20 bg-gradient-to-b from-white to-zinc-50 scroll-mt-24" >
+    <section id="contact" className="py-20 bg-gradient-to-b from-white to-zinc-50 scroll-mt-12" >
       <div className="max-w-xl mx-auto px-6">
         <h2 className="text-3xl font-black text-gray-900 mb-4 text-center font-sans">Contact Us</h2>
         <p className="text-center text-gray-600 mb-8 text-lg">

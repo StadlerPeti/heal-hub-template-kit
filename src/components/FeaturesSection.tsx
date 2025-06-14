@@ -1,4 +1,3 @@
-
 import React from "react";
 
 const features = [
@@ -35,7 +34,7 @@ const features = [
 ];
 
 const FeaturesSection = () => (
-  <section id="services" className="py-20 bg-gradient-to-b from-white via-zinc-50 to-white scroll-mt-24">
+  <section id="services" className="py-20 bg-gradient-to-b from-white via-zinc-50 to-white scroll-mt-12">
     <div className="max-w-7xl mx-auto px-6">
       <h2 className="text-3xl md:text-4xl font-extrabold text-center text-gray-900 mb-3 font-sans">
         Our Services
