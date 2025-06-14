@@ -298,13 +298,25 @@ const Dashboard = () => {
                 </Link>
               </Button>
             </div>
+            {/* Összesítő infó designos badge-ben felül */}
+            <div className="flex flex-wrap gap-4 mb-4">
+              <div className="bg-teal-50 text-teal-700 rounded-full px-4 py-1 text-sm font-semibold shadow-sm border border-teal-100 flex items-center">
+                <span className="mr-2">📄</span>
+                Összes dokumentum: <span className="ml-1 font-bold">{docSummary.total}</span>
+              </div>
+              <div className="bg-blue-50 text-blue-700 rounded-full px-4 py-1 text-sm font-semibold shadow-sm border border-blue-100 flex items-center">
+                <span className="mr-2">💾</span>
+                Összes méret: <span className="ml-1 font-bold">{docSummary.size}</span>
+              </div>
+            </div>
             <div className="w-full">
               {documents.length > 0 ? (
                 <div>
+                  {/* felső separator */}
                   <Separator className="mb-1" />
                   {pagedDocs.map((doc, idx) => (
                     <React.Fragment key={doc.id}>
-                      <div className="flex items-center py-5">
+                      <div className="flex items-start py-5">
                         <span className="flex-1 flex items-center font-semibold text-lg pl-4">
                           {doc.name}
                         </span>
@@ -323,8 +335,8 @@ const Dashboard = () => {
                           <span className="font-semibold">Összegzés:</span> {doc.summary}
                         </span>
                       </div>
-                      {/* Add separator after last displayed doc only */}
-                      {idx === pagedDocs.length - 1 && <Separator className="mt-1" />}
+                      {/* separator minden sor között, utolsó után is */}
+                      <Separator className="my-1" />
                     </React.Fragment>
                   ))}
                 </div>
@@ -377,15 +389,6 @@ const Dashboard = () => {
                 </PaginationContent>
               </Pagination>
             )}
-            {/* Összefoglaló adatok a lista ALJÁN PAGINATION UTÁN */}
-            <div className="flex flex-wrap gap-6 mt-4">
-              <div className="text-sm text-gray-400 font-medium">
-                Összes dokumentum: <span className="font-semibold">{docSummary.total}</span>
-              </div>
-              <div className="text-sm text-gray-400 font-medium">
-                Összes méret: <span className="font-semibold">{docSummary.size}</span>
-              </div>
-            </div>
           </div>
         </div>
       </main>
