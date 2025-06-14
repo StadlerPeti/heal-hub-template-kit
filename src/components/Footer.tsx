@@ -1,4 +1,3 @@
-
 import React from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
@@ -45,7 +44,7 @@ const Footer = () => {
   const menuLinks = isAuthenticated ? adminLinks : publicLinks;
 
   return (
-    <footer className="bg-zinc-900 py-16 mt-16 shadow-xl border-t border-zinc-800">
+    <footer className="bg-zinc-900 py-16 shadow-xl border-t border-zinc-800">
       <div className="max-w-7xl mx-auto px-8 flex flex-col gap-10">
         <div className="flex flex-col md:flex-row md:justify-between gap-8">
           {/* LOGO + MINI LEÍRÁS */}
@@ -131,4 +130,3 @@ const Footer = () => {
 };
 
 export default Footer;
-

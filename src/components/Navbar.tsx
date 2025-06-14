@@ -34,21 +34,36 @@ const Navbar = () => {
     e: React.MouseEvent<HTMLAnchorElement, MouseEvent>,
     href: string
   ) => {
-    // Ha nem hash link, ne módosítsunk
     if (!href.startsWith("#")) return;
     e.preventDefault();
     const sectionId = href.replace("#", "");
     const element = document.getElementById(sectionId);
     if (element) {
       element.scrollIntoView({ behavior: "smooth" });
-      // URL hash frissítése vizuálisan is (opcionális)
       window.history.replaceState(null, "", href);
     }
     setOpen(false);
   };
 
+  // Scroll to top handler for Home menu
+  const handleScrollToTop = (
+    e: React.MouseEvent<HTMLAnchorElement, MouseEvent>
+  ) => {
+    if (location.pathname === "/" && !window.location.hash) {
+      e.preventDefault();
+      window.scrollTo({ top: 0, behavior: "smooth" });
+      setOpen(false);
+      window.history.replaceState(null, "", "/");
+    }
+    // If not on home or there’s hash, let Link handle the navigation as normal
+  };
+
   // Helper to check if a link is active for public (Home/Services/About...)
   const isPublicLinkActive = (link: any) => {
+    if (link.to === "/") {
+      // Home link: only active if at pathname="/" and there is NO hash
+      return location.pathname === "/" && !window.location.hash;
+    }
     if (link.to) {
       return location.pathname === link.to;
     } else if (link.href && location.hash) {
@@ -73,7 +88,10 @@ const Navbar = () => {
                       ? " text-teal-600 font-bold underline underline-offset-4"
                       : ""
                   }`}
-                  onClick={() => setOpen(false)}
+                  onClick={link.name === "Home"
+                    ? handleScrollToTop
+                    : () => setOpen(false)
+                  }
                 >
                   {link.name}
                 </Link>
@@ -87,7 +105,6 @@ const Navbar = () => {
                       ? " text-teal-600 font-bold underline underline-offset-4"
                       : ""
                   }`}
-                  // SMOOTH SCROLL!
                   onClick={e => handleSmoothScroll(e, link.href)}
                 >
                   {link.name}
@@ -198,7 +215,10 @@ const Navbar = () => {
                                   ? " text-teal-600 underline underline-offset-4"
                                   : ""
                               }`}
-                              onClick={() => setOpen(false)}
+                              onClick={link.name === "Home"
+                                ? handleScrollToTop
+                                : () => setOpen(false)
+                              }
                             >
                               {link.name}
                             </Link>
@@ -212,7 +232,6 @@ const Navbar = () => {
                                   ? " text-teal-600 underline underline-offset-4"
                                   : ""
                               }`}
-                              // SMOOTH SCROLL mobil drawer hash linkeknél is!
                               onClick={e => handleSmoothScroll(e, link.href)}
                             >
                               {link.name}
