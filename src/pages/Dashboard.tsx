@@ -218,12 +218,12 @@ const Dashboard = () => {
                   <AccordionItem key={doc.id} value={`doc-${doc.id}`} className="border-b-0">
                     <div className="flex items-center border-b border-gray-100">
                       <div className="flex-1 cursor-pointer" onClick={() => {}}>
-                        <AccordionTrigger className="flex w-full px-0 py-0 items-center gap-3 hover:bg-teal-50 transition-colors data-[state=open]:rounded-t-lg">
-                          <span className="flex-1 flex items-center font-semibold pl-4">
+                        <AccordionTrigger className="flex w-full py-5 px-0 items-center gap-5 rounded-xl border border-teal-100 bg-gradient-to-r from-white to-teal-50 shadow-sm hover:shadow-md hover:from-teal-50 hover:to-blue-50 transition-all data-[state=open]:rounded-t-xl data-[state=open]:bg-teal-50">
+                          <span className="flex-1 flex items-center font-semibold text-lg pl-4">
                             {doc.name}
                           </span>
-                          <span className="w-40 text-left text-sm text-gray-700">{doc.uploadedAt}</span>
-                          <span className="w-24 text-left text-sm text-gray-700">{doc.size}</span>
+                          <span className="w-40 text-left text-base text-gray-700">{doc.uploadedAt}</span>
+                          <span className="w-24 text-left text-base text-gray-700">{doc.size}</span>
                           <span className="hidden md:block w-60 text-xs text-gray-400 truncate">
                             {doc.summary.slice(0, 32)}...
                           </span>
