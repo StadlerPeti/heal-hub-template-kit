@@ -212,7 +212,7 @@ const Dashboard = () => {
       <Navbar />
       <main className="flex-grow pt-28 flex flex-col items-center justify-start">
         <div className="w-full max-w-7xl px-4">
-          {/* Egészségügyi állapot rövid összefoglaló */}
+          {/* Egészségügyi állapot összefoglaló */}
           <div className="mb-8">
             <div className="bg-white rounded-2xl shadow-md border border-teal-200 p-7 flex items-center">
               <span className="text-3xl text-teal-600 font-bold mr-5">🩺</span>
@@ -228,7 +228,7 @@ const Dashboard = () => {
             </div>
           </div>
 
-          {/* Ajánlott vizsgálatok és orvosok */}
+          {/* Ajánlások szekció */}
           <div className="mb-8">
             <div className="bg-white rounded-2xl shadow-md border border-blue-200 p-7">
               <h2 className="font-semibold text-lg text-blue-800 mb-3">Ajánlások</h2>
@@ -285,8 +285,21 @@ const Dashboard = () => {
           </div>
           {/* Feltöltött dokumentumok szekció összegzéssel */}
           <div className="bg-white rounded-2xl shadow-lg p-7 mb-14">
-            <div className="flex items-center justify-between mb-4">
-              <h2 className="font-semibold text-gray-800 text-lg">Feltöltött dokumentumok</h2>
+            <div className="flex flex-col items-start gap-1 mb-4">
+              <span className="text-base font-semibold text-gray-800">
+                Feltöltött dokumentumok
+              </span>
+              <div className="flex gap-6 mt-1">
+                <span className="text-gray-600 text-[1.1rem] font-semibold">
+                  Összes dokumentum: <span className="font-bold">{docSummary.total}</span>
+                </span>
+                <span className="text-gray-600 text-[1.1rem] font-semibold">
+                  Összes méret: <span className="font-bold">{docSummary.size}</span>
+                </span>
+              </div>
+            </div>
+            <div className="flex items-center justify-between mb-4 mt-0">
+              <div></div>
               <Button
                 asChild
                 size="sm"
@@ -297,17 +310,6 @@ const Dashboard = () => {
                   Dokumentum feltöltése
                 </Link>
               </Button>
-            </div>
-            {/* Összesítő infó designos badge-ben felül */}
-            <div className="flex flex-wrap gap-4 mb-4">
-              <div className="bg-teal-50 text-teal-700 rounded-full px-4 py-1 text-sm font-semibold shadow-sm border border-teal-100 flex items-center">
-                <span className="mr-2">📄</span>
-                Összes dokumentum: <span className="ml-1 font-bold">{docSummary.total}</span>
-              </div>
-              <div className="bg-blue-50 text-blue-700 rounded-full px-4 py-1 text-sm font-semibold shadow-sm border border-blue-100 flex items-center">
-                <span className="mr-2">💾</span>
-                Összes méret: <span className="ml-1 font-bold">{docSummary.size}</span>
-              </div>
             </div>
             <div className="w-full">
               {documents.length > 0 ? (
