@@ -1,10 +1,10 @@
-
 import Navbar from "@/components/Navbar";
 import HeroSection from "@/components/HeroSection";
 import FeaturesSection from "@/components/FeaturesSection";
 import CTASection from "@/components/CTASection";
 import ContactForm from "@/components/ContactForm";
 import Footer from "@/components/Footer";
+import AboutSection from "@/components/AboutSection";
 
 const Index = () => {
   return (
@@ -13,6 +13,7 @@ const Index = () => {
       <main className="flex-grow pt-20">
         <HeroSection />
         <FeaturesSection />
+        <AboutSection />
         <CTASection />
         <ContactForm />
       </main>
