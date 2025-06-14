@@ -4,7 +4,7 @@ import React from "react";
 const AboutSection = () => (
   <section
     id="about"
-    className="py-20 bg-gradient-to-b from-white via-blue-50 to-teal-50 px-6"
+    className="py-20 bg-gradient-to-b from-white via-blue-50 to-teal-50 px-6 scroll-mt-24"
   >
     <div className="max-w-4xl mx-auto text-center">
       <h2 className="text-3xl md:text-4xl font-extrabold text-gray-900 mb-6 font-sans">
