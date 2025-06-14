@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+
+import React, { useState, useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
 import { Menu } from "lucide-react";
@@ -29,6 +30,16 @@ const Navbar = () => {
 
   const [open, setOpen] = useState(false);
 
+  // ÚJ: Az aktuális hash külön kezelése, hogy biztos legyen rerender kattintás után is.
+  const [activeHash, setActiveHash] = useState<string>(window.location.hash);
+
+  // Ha böngészőn hash váltás történik, frissítsük le a state-et.
+  useEffect(() => {
+    const onHashChange = () => setActiveHash(window.location.hash);
+    window.addEventListener("hashchange", onHashChange);
+    return () => window.removeEventListener("hashchange", onHashChange);
+  }, []);
+
   // Smooth scroll handler hash linkekhez
   const handleSmoothScroll = (
     e: React.MouseEvent<HTMLAnchorElement, MouseEvent>,
@@ -41,6 +52,7 @@ const Navbar = () => {
     if (element) {
       element.scrollIntoView({ behavior: "smooth" });
       window.history.replaceState(null, "", href);
+      setActiveHash(href); // Aktív hash is frissül!
     }
     setOpen(false);
   };
@@ -54,6 +66,7 @@ const Navbar = () => {
       window.scrollTo({ top: 0, behavior: "smooth" });
       setOpen(false);
       window.history.replaceState(null, "", "/");
+      setActiveHash(""); // Üres hash
     }
     // If not on home or there’s hash, let Link handle the navigation as normal
   };
@@ -61,15 +74,16 @@ const Navbar = () => {
   // Helper to check if a link is active for public (Home/Services/About...)
   const isPublicLinkActive = (link: any) => {
     if (link.to === "/") {
-      // Home link: only active if at pathname="/" and there is NO hash
-      return location.pathname === "/" && !window.location.hash;
+      // Home link: csak akkor aktív, ha a path '/' és nincs hash
+      return location.pathname === "/" && !activeHash;
     }
     if (link.to) {
       return location.pathname === link.to;
-    } else if (link.href && location.hash) {
-      return location.hash === link.href;
-    } else if (link.href && typeof window !== "undefined") {
-      return location.pathname === "/" && window.location.hash === link.href;
+    } else if (link.href) {
+      return (
+        location.pathname === "/" &&
+        activeHash === link.href // az új state-ből olvasunk!
+      );
     }
     return false;
   };
@@ -287,3 +301,4 @@ const Navbar = () => {
 };
 
 export default Navbar;
+
