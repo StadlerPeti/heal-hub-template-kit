@@ -26,7 +26,7 @@ const Login = () => {
   };
 
   return (
-    <div className="bg-white min-h-screen w-full flex flex-col">
+    <div className="min-h-screen w-full flex flex-col">
       <Navbar />
       <main className="flex-grow pt-24 flex flex-col items-center justify-center bg-gradient-to-tr from-teal-50 to-blue-50">
         <div className="w-full max-w-sm bg-white rounded-2xl shadow-xl p-8 mt-4 mb-8">
