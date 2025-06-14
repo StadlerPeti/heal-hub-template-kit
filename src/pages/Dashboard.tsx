@@ -285,32 +285,31 @@ const Dashboard = () => {
           </div>
           {/* Feltöltött dokumentumok szekció összegzéssel */}
           <div className="bg-white rounded-2xl shadow-lg p-7 mb-14">
-            <div className="flex flex-col items-start gap-1 mb-3">
-              <span className="text-base font-semibold text-gray-800 mb-1">
-                Feltöltött dokumentumok
-              </span>
-              <span className="text-gray-600 text-[12px] font-semibold leading-tight">
-                Összes dokumentum: <span className="font-bold">15</span>
-              </span>
-              <span className="text-gray-600 text-[12px] font-semibold leading-tight">
-                Összes méret: <span className="font-bold">5.20 MB</span>
-              </span>
-            </div>
-            {/* Feltöltés gomb közvetlenül az összegző alatt */}
-            <div className="flex items-center justify-between mb-4 mt-0">
+            {/* Fejléc és gomb egy sorban */}
+            <div className="flex items-start justify-between mb-1">
+              <div>
+                <span className="text-base font-semibold text-gray-800 mb-1 block">
+                  Feltöltött dokumentumok
+                </span>
+                <span className="text-gray-600 text-[12px] font-semibold leading-tight block">
+                  Összes dokumentum: <span className="font-bold">15</span>
+                </span>
+                <span className="text-gray-600 text-[12px] font-semibold leading-tight block">
+                  Összes méret: <span className="font-bold">5.20 MB</span>
+                </span>
+              </div>
               <Button
                 asChild
                 size="sm"
-                className="gap-2 font-semibold bg-gradient-to-r from-teal-500 to-blue-500 text-white border-0 shadow hover:from-teal-600 hover:to-blue-600 transition-colors"
+                className="gap-2 font-semibold bg-gradient-to-r from-teal-500 to-blue-500 text-white border-0 shadow hover:from-teal-600 hover:to-blue-600 transition-colors mt-1"
               >
                 <Link to="/upload">
                   <Upload className="w-4 h-4" />
                   Dokumentum feltöltése
                 </Link>
               </Button>
-              <div></div>
             </div>
-            <div className="w-full">
+            <div className="w-full mt-2">
               {documents.length > 0 ? (
                 <div>
                   {/* felső separator */}
