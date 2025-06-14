@@ -1,4 +1,3 @@
-
 import React from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -245,7 +244,7 @@ const Dashboard = () => {
                         </AccordionTrigger>
                       </div>
                     </div>
-                    <AccordionContent className="bg-teal-50 px-4 py-3 border-b border-gray-200 rounded-b-none">
+                    <AccordionContent className="px-4 py-3 border-b border-gray-200 rounded-b-none">
                       <div className="text-gray-800 text-sm">
                         <span className="font-semibold">Összegzés:</span> {doc.summary}
                       </div>
@@ -265,4 +264,3 @@ const Dashboard = () => {
 };
 
 export default Dashboard;
-
