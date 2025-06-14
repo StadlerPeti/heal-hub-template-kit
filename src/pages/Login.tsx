@@ -14,12 +14,12 @@ const Login = () => {
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
-  if (isAuthenticated) return <Navigate to="/" replace />;
+  if (isAuthenticated) return <Navigate to="/dashboard" replace />;
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (login(username, password)) {
-      navigate("/upload");
+      navigate("/dashboard");
     } else {
       setError("Invalid credentials (Hint: admin/admin)");
     }
