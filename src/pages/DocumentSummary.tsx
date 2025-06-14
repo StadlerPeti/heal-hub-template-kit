@@ -56,7 +56,8 @@ const DocumentSummary = () => {
   return (
     <div className="min-h-screen flex flex-col bg-gradient-to-br from-teal-50 via-blue-50 to-white">
       <Navbar />
-      <main className="flex-grow flex items-center justify-center">
+      {/* Térköz (pl. mt-16 = 4rem margó) a felső box előtt */}
+      <main className="flex-grow flex items-center justify-center mt-16">
         <div className="max-w-xl w-full bg-white rounded-2xl shadow-lg border p-8 mx-4">
           <h1 className="text-2xl font-bold text-teal-700 mb-4 flex items-center gap-2">
             📄 Dokumentum összegzés

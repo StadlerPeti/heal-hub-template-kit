@@ -22,6 +22,12 @@ import {
 import { Button } from "@/components/ui/button";
 import { Upload } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
+import {
+  Accordion,
+  AccordionItem,
+  AccordionTrigger,
+  AccordionContent,
+} from "@/components/ui/accordion";
 
 const chartData = [
   { name: "Jan", patients: 30, visits: 10 },
@@ -205,47 +211,47 @@ const Dashboard = () => {
                 Összes méret: <span className="font-bold">{docSummary.size}</span>
               </div>
             </div>
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>Dokumentum neve</TableHead>
-                  <TableHead>Feltöltés ideje</TableHead>
-                  <TableHead>Méret</TableHead>
-                  <TableHead>Összegzés</TableHead>
-                  <TableHead></TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {documents.length > 0 ? (
-                  documents.map((doc) => (
-                    <TableRow key={doc.id}>
-                      <TableCell className="font-semibold">{doc.name}</TableCell>
-                      <TableCell>{doc.uploadedAt}</TableCell>
-                      <TableCell>{doc.size}</TableCell>
-                      <TableCell>
-                        <span className="text-gray-600 text-xs">{doc.summary}</span>
-                      </TableCell>
-                      <TableCell>
-                        <Button
-                          size="sm"
-                          variant="outline"
-                          className="border-teal-500 text-teal-700 hover:bg-teal-50"
-                          onClick={() => navigate(`/document/${doc.id}`)}
-                        >
-                          Részletek
-                        </Button>
-                      </TableCell>
-                    </TableRow>
-                  ))
-                ) : (
-                  <TableRow>
-                    <TableCell colSpan={5} className="text-center">
-                      Nincs feltöltött dokumentum.
-                    </TableCell>
-                  </TableRow>
-                )}
-              </TableBody>
-            </Table>
+            {/* Collapsible sorok a táblázatban */}
+            <Accordion type="multiple" className="w-full">
+              {documents.length > 0 ? (
+                documents.map((doc) => (
+                  <AccordionItem key={doc.id} value={`doc-${doc.id}`} className="border-b-0">
+                    <div className="flex items-center border-b border-gray-100">
+                      <div className="flex-1 cursor-pointer" onClick={() => {}}>
+                        <AccordionTrigger className="flex w-full px-0 py-0 items-center gap-3 hover:bg-teal-50 transition-colors data-[state=open]:rounded-t-lg">
+                          <span className="flex-1 flex items-center font-semibold pl-4">
+                            {doc.name}
+                          </span>
+                          <span className="w-40 text-left text-sm text-gray-700">{doc.uploadedAt}</span>
+                          <span className="w-24 text-left text-sm text-gray-700">{doc.size}</span>
+                          <span className="hidden md:block w-60 text-xs text-gray-400 truncate">
+                            {doc.summary.slice(0, 32)}...
+                          </span>
+                          <Button
+                            size="sm"
+                            variant="outline"
+                            className="border-teal-500 text-teal-700 hover:bg-teal-50 ml-4"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              navigate(`/document/${doc.id}`);
+                            }}
+                          >
+                            Részletek
+                          </Button>
+                        </AccordionTrigger>
+                      </div>
+                    </div>
+                    <AccordionContent className="bg-teal-50 px-4 py-3 border-b border-teal-200 rounded-b-xl">
+                      <div className="text-gray-800 text-sm">
+                        <span className="font-semibold">Összegzés:</span> {doc.summary}
+                      </div>
+                    </AccordionContent>
+                  </AccordionItem>
+                ))
+              ) : (
+                <div className="text-center py-6 text-gray-500">Nincs feltöltött dokumentum.</div>
+              )}
+            </Accordion>
           </div>
         </div>
       </main>
