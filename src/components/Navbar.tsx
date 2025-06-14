@@ -30,6 +30,21 @@ const Navbar = () => {
 
   const [open, setOpen] = useState(false);
 
+  // Helper to check if a link is active for public (Home/Services/About...)
+  const isPublicLinkActive = (link: any) => {
+    if (link.to) {
+      // Use react-router's location for route-based links
+      return location.pathname === link.to;
+    } else if (link.href && location.hash) {
+      // For hash links, check location.hash
+      return location.hash === link.href;
+    } else if (link.href && typeof window !== "undefined") {
+      // On Home, if the hash link matches current hash
+      return location.pathname === "/" && window.location.hash === link.href;
+    }
+    return false;
+  };
+
   // Menü logika
   const navList = (
     <>
@@ -40,7 +55,7 @@ const Navbar = () => {
                 <Link
                   to={link.to}
                   className={`hover:text-teal-500 transition duration-200 block px-3 py-2 rounded-lg${
-                    location.pathname === link.to
+                    isPublicLinkActive(link)
                       ? " text-teal-600 font-bold underline underline-offset-4"
                       : ""
                   }`}
@@ -53,7 +68,11 @@ const Navbar = () => {
               <li key={link.name}>
                 <a
                   href={link.href}
-                  className="hover:text-teal-500 transition duration-200 block px-3 py-2 rounded-lg"
+                  className={`hover:text-teal-500 transition duration-200 block px-3 py-2 rounded-lg${
+                    isPublicLinkActive(link)
+                      ? " text-teal-600 font-bold underline underline-offset-4"
+                      : ""
+                  }`}
                   onClick={() => setOpen(false)}
                 >
                   {link.name}
@@ -77,27 +96,6 @@ const Navbar = () => {
             </li>
           ))}
     </>
-  );
-
-  const authControls = !isAuthenticated ? (
-    <Link
-      to="/login"
-      className="inline-flex items-center gap-2 bg-transparent border border-teal-500 text-teal-700 px-4 py-2 rounded-full font-semibold hover:bg-teal-50 transition-all duration-200 w-full justify-center"
-      onClick={() => setOpen(false)}
-    >
-      Login
-    </Link>
-  ) : (
-    <button
-      onClick={() => {
-        logout();
-        navigate("/");
-        setOpen(false);
-      }}
-      className="inline-flex items-center gap-2 bg-transparent border border-red-400 text-red-600 px-4 py-2 rounded-full font-semibold hover:bg-red-100 transition-all duration-200 w-full justify-center"
-    >
-      Logout
-    </button>
   );
 
   return (
@@ -181,7 +179,7 @@ const Navbar = () => {
                             <Link
                               to={link.to}
                               className={`block w-full py-3 px-4 text-gray-800 rounded-lg hover:bg-gray-100 font-medium transition${
-                                location.pathname === link.to
+                                isPublicLinkActive(link)
                                   ? " text-teal-600 underline underline-offset-4"
                                   : ""
                               }`}
@@ -194,7 +192,11 @@ const Navbar = () => {
                           <li key={link.name}>
                             <a
                               href={link.href}
-                              className="block w-full py-3 px-4 text-gray-800 rounded-lg hover:bg-gray-100 font-medium transition"
+                              className={`block w-full py-3 px-4 text-gray-800 rounded-lg hover:bg-gray-100 font-medium transition${
+                                isPublicLinkActive(link)
+                                  ? " text-teal-600 underline underline-offset-4"
+                                  : ""
+                              }`}
                               onClick={() => setOpen(false)}
                             >
                               {link.name}
