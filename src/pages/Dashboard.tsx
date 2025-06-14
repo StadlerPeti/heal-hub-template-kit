@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import {
@@ -11,14 +11,8 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import {
-  Table,
-  TableHeader,
-  TableBody,
-  TableRow,
-  TableCell,
-  TableHead,
-} from "@/components/ui/table";
-import { Button } from "@/components/ui/button";
+  Button
+} from "@/components/ui/button";
 import { Upload } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import {
@@ -27,6 +21,15 @@ import {
   AccordionTrigger,
   AccordionContent,
 } from "@/components/ui/accordion";
+import { Separator } from "@/components/ui/separator";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+  PaginationLink,
+  PaginationPrevious,
+  PaginationNext,
+} from "@/components/ui/pagination";
 
 const chartData = [
   { name: "Jan", patients: 30, visits: 10 },
@@ -46,7 +49,7 @@ const tiles = [
   { icon: "⭐", title: "Átlag értékelés", value: "4.8" },
 ];
 
-// Mock dokumentumok listája (ez váltandó Supabase vagy api kapcsolatra)
+// Mock dokumentumok listája (kibővítve 15 dokumentumra)
 const documents = [
   {
     id: 1,
@@ -69,6 +72,90 @@ const documents = [
     uploadedAt: "2024-06-13 09:19",
     size: "420 KB",
     summary: "TAJ kártya igazolás, nincs orvosi tartalom.",
+  },
+  {
+    id: 4,
+    name: "Ultrahang_eredmeny.pdf",
+    uploadedAt: "2024-06-13 16:11",
+    size: "760 KB",
+    summary: "Ultrahang vizsgálat eredménye: rendellenességet nem észleltek.",
+  },
+  {
+    id: 5,
+    name: "Recept_Amoxicillin.pdf",
+    uploadedAt: "2024-06-14 11:34",
+    size: "55 KB",
+    summary: "Antibiotikum kúra recept, 7 napos adagolás.",
+  },
+  {
+    id: 6,
+    name: "Labor_hemoglobin.jpg",
+    uploadedAt: "2024-06-15 09:50",
+    size: "140 KB",
+    summary: "Hemoglobin érték kicsivel a normál alatt, kontroll 3 hó múlva.",
+  },
+  {
+    id: 7,
+    name: "Szemvizsgalat_lelet.docx",
+    uploadedAt: "2024-06-15 16:08",
+    size: "190 KB",
+    summary: "Szemészeti vizsgálat: nincs eltérés, szemnyomás normális.",
+  },
+  {
+    id: 8,
+    name: "EKG_eredmeny.pdf",
+    uploadedAt: "2024-06-16 08:35",
+    size: "210 KB",
+    summary: "EKG: szabályos sinus ritmus.",
+  },
+  {
+    id: 9,
+    name: "Laboresz_1.pdf",
+    uploadedAt: "2024-06-16 10:21",
+    size: "100 KB",
+    summary: "Vércukor a normál tartományban.",
+  },
+  {
+    id: 10,
+    name: "Koleszterin_lab.docx",
+    uploadedAt: "2024-06-17 12:44",
+    size: "125 KB",
+    summary: "Koleszterin magasabb, diéta javasolt.",
+  },
+  {
+    id: 11,
+    name: "Tajkartya_szukseges.pdf",
+    uploadedAt: "2024-06-18 14:28",
+    size: "160 KB",
+    summary: "TAJ kártya, adminisztratív dokumentum.",
+  },
+  {
+    id: 12,
+    name: "Orvosi_ajanlas.txt",
+    uploadedAt: "2024-06-18 16:05",
+    size: "10 KB",
+    summary: "Folyamatos fizikai aktivitás fenntartása ajánlott.",
+  },
+  {
+    id: 13,
+    name: "MRT_lelet.pdf",
+    uploadedAt: "2024-06-19 08:57",
+    size: "980 KB",
+    summary: "MRT vizsgálat: mindent rendben találtak.",
+  },
+  {
+    id: 14,
+    name: "Vakcina_igazolas.pdf",
+    uploadedAt: "2024-06-19 13:02",
+    size: "77 KB",
+    summary: "COVID-oltás igazolás.",
+  },
+  {
+    id: 15,
+    name: "Allergia_lelet.pdf",
+    uploadedAt: "2024-06-19 16:15",
+    size: "65 KB",
+    summary: "Nincs kimutatható allergia.",
   },
 ];
 
@@ -109,6 +196,16 @@ const recommendations = [
 const Dashboard = () => {
   const navigate = useNavigate();
   const docSummary = getDocumentsSummary();
+
+  // Pagination logic
+  const DOCS_PER_PAGE = 5;
+  const [page, setPage] = useState(1);
+  const totalPages = Math.ceil(documents.length / DOCS_PER_PAGE);
+  const pagedDocs = documents.slice((page - 1) * DOCS_PER_PAGE, page * DOCS_PER_PAGE);
+
+  const goToPage = (newPage: number) => {
+    if (newPage >= 1 && newPage <= totalPages) setPage(newPage);
+  };
 
   return (
     <div className="bg-gradient-to-br from-teal-50 via-blue-50 to-white min-h-screen w-full flex flex-col">
@@ -201,13 +298,12 @@ const Dashboard = () => {
                 </Link>
               </Button>
             </div>
-            {/* Dokumentumok listája */}
             <div className="w-full">
               {documents.length > 0 ? (
-                <div className="divide-y divide-gray-200">
-                  {documents.map((doc) => (
-                    <div key={doc.id}>
-                      {/* Fő sor: hover teljesen eltávolítva, méret oszlop már nincs */}
+                <div>
+                  <Separator className="mb-1" />
+                  {pagedDocs.map((doc, idx) => (
+                    <React.Fragment key={doc.id}>
                       <div className="flex items-center py-5">
                         <span className="flex-1 flex items-center font-semibold text-lg pl-4">
                           {doc.name}
@@ -222,21 +318,67 @@ const Dashboard = () => {
                           Részletek
                         </Button>
                       </div>
-                      {/* Második sor: az összegzés */}
                       <div className="px-4 pb-4 -mt-2 bg-white">
                         <span className="block text-gray-500 text-sm">
                           <span className="font-semibold">Összegzés:</span> {doc.summary}
                         </span>
                       </div>
-                    </div>
+                      {/* Add separator after last displayed doc only */}
+                      {idx === pagedDocs.length - 1 && <Separator className="mt-1" />}
+                    </React.Fragment>
                   ))}
                 </div>
               ) : (
                 <div className="text-center py-6 text-gray-500">Nincs feltöltött dokumentum.</div>
               )}
             </div>
-            {/* Összefoglaló adatok a lista ALJÁN */}
-            <div className="flex flex-wrap gap-6 mt-6">
+            {/* Pagination controls */}
+            {totalPages > 1 && (
+              <Pagination className="mt-6">
+                <PaginationContent>
+                  <PaginationItem>
+                    <PaginationPrevious
+                      onClick={(e: React.MouseEvent) => {
+                        e.preventDefault();
+                        goToPage(page - 1);
+                      }}
+                      href="#"
+                      aria-disabled={page === 1}
+                      tabIndex={page === 1 ? -1 : undefined}
+                      style={{ pointerEvents: page === 1 ? "none" : undefined , opacity: page === 1 ? 0.5 : 1 }}
+                    />
+                  </PaginationItem>
+                  {Array.from({ length: totalPages }).map((_, i) => (
+                    <PaginationItem key={i}>
+                      <PaginationLink
+                        isActive={i + 1 === page}
+                        href="#"
+                        onClick={(e: React.MouseEvent) => {
+                          e.preventDefault();
+                          goToPage(i + 1);
+                        }}
+                      >
+                        {i + 1}
+                      </PaginationLink>
+                    </PaginationItem>
+                  ))}
+                  <PaginationItem>
+                    <PaginationNext
+                      onClick={(e: React.MouseEvent) => {
+                        e.preventDefault();
+                        goToPage(page + 1);
+                      }}
+                      href="#"
+                      aria-disabled={page === totalPages}
+                      tabIndex={page === totalPages ? -1 : undefined}
+                      style={{ pointerEvents: page === totalPages ? "none" : undefined, opacity: page === totalPages ? 0.5 : 1 }}
+                    />
+                  </PaginationItem>
+                </PaginationContent>
+              </Pagination>
+            )}
+            {/* Összefoglaló adatok a lista ALJÁN PAGINATION UTÁN */}
+            <div className="flex flex-wrap gap-6 mt-4">
               <div className="text-sm text-gray-400 font-medium">
                 Összes dokumentum: <span className="font-semibold">{docSummary.total}</span>
               </div>
