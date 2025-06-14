@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
@@ -30,16 +29,31 @@ const Navbar = () => {
 
   const [open, setOpen] = useState(false);
 
+  // Smooth scroll handler hash linkekhez
+  const handleSmoothScroll = (
+    e: React.MouseEvent<HTMLAnchorElement, MouseEvent>,
+    href: string
+  ) => {
+    // Ha nem hash link, ne módosítsunk
+    if (!href.startsWith("#")) return;
+    e.preventDefault();
+    const sectionId = href.replace("#", "");
+    const element = document.getElementById(sectionId);
+    if (element) {
+      element.scrollIntoView({ behavior: "smooth" });
+      // URL hash frissítése vizuálisan is (opcionális)
+      window.history.replaceState(null, "", href);
+    }
+    setOpen(false);
+  };
+
   // Helper to check if a link is active for public (Home/Services/About...)
   const isPublicLinkActive = (link: any) => {
     if (link.to) {
-      // Use react-router's location for route-based links
       return location.pathname === link.to;
     } else if (link.href && location.hash) {
-      // For hash links, check location.hash
       return location.hash === link.href;
     } else if (link.href && typeof window !== "undefined") {
-      // On Home, if the hash link matches current hash
       return location.pathname === "/" && window.location.hash === link.href;
     }
     return false;
@@ -73,7 +87,8 @@ const Navbar = () => {
                       ? " text-teal-600 font-bold underline underline-offset-4"
                       : ""
                   }`}
-                  onClick={() => setOpen(false)}
+                  // SMOOTH SCROLL!
+                  onClick={e => handleSmoothScroll(e, link.href)}
                 >
                   {link.name}
                 </a>
@@ -197,7 +212,8 @@ const Navbar = () => {
                                   ? " text-teal-600 underline underline-offset-4"
                                   : ""
                               }`}
-                              onClick={() => setOpen(false)}
+                              // SMOOTH SCROLL mobil drawer hash linkeknél is!
+                              onClick={e => handleSmoothScroll(e, link.href)}
                             >
                               {link.name}
                             </a>
