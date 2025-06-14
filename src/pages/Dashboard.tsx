@@ -201,22 +201,13 @@ const Dashboard = () => {
                 </Link>
               </Button>
             </div>
-            {/* Összefoglaló adatok */}
-            <div className="flex flex-wrap gap-6 mb-6">
-              <div className="bg-teal-50 border border-teal-200 rounded-lg px-5 py-3 text-teal-900 font-medium shadow-sm">
-                Összes dokumentum: <span className="font-bold">{docSummary.total}</span>
-              </div>
-              <div className="bg-blue-50 border border-blue-200 rounded-lg px-5 py-3 text-blue-900 font-medium shadow-sm">
-                Összes méret: <span className="font-bold">{docSummary.size}</span>
-              </div>
-            </div>
             {/* Dokumentumok listája */}
             <div className="w-full">
               {documents.length > 0 ? (
                 <div className="divide-y divide-gray-200">
                   {documents.map((doc) => (
                     <div key={doc.id}>
-                      {/* Fő sor: már nincs hover, nincs méret oszlop */}
+                      {/* Fő sor: hover teljesen eltávolítva, méret oszlop már nincs */}
                       <div className="flex items-center py-5">
                         <span className="flex-1 flex items-center font-semibold text-lg pl-4">
                           {doc.name}
@@ -231,7 +222,7 @@ const Dashboard = () => {
                           Részletek
                         </Button>
                       </div>
-                      {/* Második sor: az összegzés, sosem színeződik */}
+                      {/* Második sor: az összegzés */}
                       <div className="px-4 pb-4 -mt-2 bg-white">
                         <span className="block text-gray-500 text-sm">
                           <span className="font-semibold">Összegzés:</span> {doc.summary}
@@ -243,6 +234,15 @@ const Dashboard = () => {
               ) : (
                 <div className="text-center py-6 text-gray-500">Nincs feltöltött dokumentum.</div>
               )}
+            </div>
+            {/* Összefoglaló adatok a lista ALJÁN */}
+            <div className="flex flex-wrap gap-6 mt-6">
+              <div className="text-sm text-gray-400 font-medium">
+                Összes dokumentum: <span className="font-semibold">{docSummary.total}</span>
+              </div>
+              <div className="text-sm text-gray-400 font-medium">
+                Összes méret: <span className="font-semibold">{docSummary.size}</span>
+              </div>
             </div>
           </div>
         </div>
