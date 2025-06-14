@@ -100,7 +100,12 @@ const Dashboard = () => {
           <div className="bg-white rounded-2xl shadow-lg p-7 mb-14">
             <div className="flex items-center justify-between mb-4">
               <h2 className="font-semibold text-gray-800 text-lg">Feltöltött dokumentumok</h2>
-              <Button asChild variant="default" size="sm" className="gap-2">
+              <Button
+                asChild
+                size="sm"
+                className="gap-2 font-semibold bg-gradient-to-r from-teal-500 to-blue-500 text-white border-0 shadow hover:from-teal-600 hover:to-blue-600 transition-colors"
+                // nem használok variant-et, hogy felülírjam az alap variant színét
+              >
                 <Link to="/upload">
                   <Upload className="w-4 h-4" />
                   Dokumentum feltöltése
