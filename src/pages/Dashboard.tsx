@@ -19,6 +19,9 @@ import {
   TableCell,
   TableHead,
 } from "@/components/ui/table";
+import { Button } from "@/components/ui/button";
+import { Upload } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const chartData = [
   { name: "Jan", patients: 30, visits: 10 },
@@ -95,7 +98,15 @@ const Dashboard = () => {
             ))}
           </div>
           <div className="bg-white rounded-2xl shadow-lg p-7 mb-14">
-            <h2 className="font-semibold mb-4 text-gray-800 text-lg">Feltöltött dokumentumok</h2>
+            <div className="flex items-center justify-between mb-4">
+              <h2 className="font-semibold text-gray-800 text-lg">Feltöltött dokumentumok</h2>
+              <Button asChild variant="default" size="sm" className="gap-2">
+                <Link to="/upload">
+                  <Upload className="w-4 h-4" />
+                  Dokumentum feltöltése
+                </Link>
+              </Button>
+            </div>
             <Table>
               <TableHeader>
                 <TableRow>
