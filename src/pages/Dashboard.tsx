@@ -210,51 +210,45 @@ const Dashboard = () => {
                 Összes méret: <span className="font-bold">{docSummary.size}</span>
               </div>
             </div>
-            {/* Collapsible sorok a táblázatban */}
-            <Accordion
-              type="multiple"
-              className="w-full"
-              defaultValue={documents.map((doc) => `doc-${doc.id}`)}
-            >
+            {/* Dokumentumok listája új formátumban összegzéssel külön sorban */}
+            <div className="w-full">
               {documents.length > 0 ? (
-                documents.map((doc) => (
-                  <AccordionItem key={doc.id} value={`doc-${doc.id}`} className="border-0">
-                    <div className="flex items-center border-b border-gray-200">
-                      <div className="flex-1 cursor-pointer" onClick={() => {}}>
-                        <AccordionTrigger className="flex w-full py-5 px-0 items-center gap-5 rounded-none bg-white shadow-none border-none transition-all data-[state=open]:bg-white hover:bg-gray-50 !no-underline">
-                          <span className="flex-1 flex items-center font-semibold text-lg pl-4">
-                            {doc.name}
-                          </span>
-                          <span className="w-40 text-left text-base text-gray-700">{doc.uploadedAt}</span>
-                          <span className="w-24 text-left text-base text-gray-700">{doc.size}</span>
-                          <span className="hidden md:block w-60 text-xs text-gray-400 truncate">
-                            {doc.summary.slice(0, 32)}...
-                          </span>
-                          <Button
-                            size="sm"
-                            variant="outline"
-                            className="border-teal-500 text-teal-700 hover:bg-teal-50 ml-4"
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              navigate(`/document/${doc.id}`);
-                            }}
-                          >
-                            Részletek
-                          </Button>
-                        </AccordionTrigger>
+                <div className="divide-y divide-gray-200">
+                  {documents.map((doc) => (
+                    <div
+                      key={doc.id}
+                      className="group"
+                    >
+                      <div className="flex items-center py-5 hover:bg-gray-50 transition-colors">
+                        <span className="flex-1 flex items-center font-semibold text-lg pl-4">
+                          {doc.name}
+                        </span>
+                        <span className="w-40 text-left text-base text-gray-700">{doc.uploadedAt}</span>
+                        <span className="w-24 text-left text-base text-gray-700">{doc.size}</span>
+                        <span className="hidden md:block w-60 text-xs text-gray-400 truncate">
+                          {doc.summary.slice(0, 32)}...
+                        </span>
+                        <Button
+                          size="sm"
+                          variant="outline"
+                          className="border-teal-500 text-teal-700 hover:bg-teal-50 ml-4"
+                          onClick={() => navigate(`/document/${doc.id}`)}
+                        >
+                          Részletek
+                        </Button>
+                      </div>
+                      <div className="px-4 pb-4 -mt-2">
+                        <span className="block text-gray-500 text-sm">
+                          <span className="font-semibold">Összegzés:</span> {doc.summary}
+                        </span>
                       </div>
                     </div>
-                    <AccordionContent className="px-4 py-3 border-b border-gray-200 rounded-b-none bg-white">
-                      <div className="text-gray-800 text-sm">
-                        <span className="font-semibold">Összegzés:</span> {doc.summary}
-                      </div>
-                    </AccordionContent>
-                  </AccordionItem>
-                ))
+                  ))}
+                </div>
               ) : (
                 <div className="text-center py-6 text-gray-500">Nincs feltöltött dokumentum.</div>
               )}
-            </Accordion>
+            </div>
           </div>
         </div>
       </main>
