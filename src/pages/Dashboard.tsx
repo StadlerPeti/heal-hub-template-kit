@@ -221,7 +221,7 @@ const Dashboard = () => {
                   <AccordionItem key={doc.id} value={`doc-${doc.id}`} className="border-0">
                     <div className="flex items-center border-b border-gray-200">
                       <div className="flex-1 cursor-pointer" onClick={() => {}}>
-                        <AccordionTrigger className="flex w-full py-5 px-0 items-center gap-5 rounded-none  bg-white shadow-none border-none transition-all data-[state=open]:bg-white">
+                        <AccordionTrigger className="flex w-full py-5 px-0 items-center gap-5 rounded-none bg-white shadow-none border-none transition-all data-[state=open]:bg-white">
                           <span className="flex-1 flex items-center font-semibold text-lg pl-4">
                             {doc.name}
                           </span>
