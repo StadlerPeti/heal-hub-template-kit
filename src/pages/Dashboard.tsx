@@ -212,13 +212,17 @@ const Dashboard = () => {
               </div>
             </div>
             {/* Collapsible sorok a táblázatban */}
-            <Accordion type="multiple" className="w-full">
+            <Accordion
+              type="multiple"
+              className="w-full"
+              defaultValue={documents.map((doc) => `doc-${doc.id}`)}
+            >
               {documents.length > 0 ? (
                 documents.map((doc) => (
-                  <AccordionItem key={doc.id} value={`doc-${doc.id}`} className="border-b-0">
-                    <div className="flex items-center border-b border-gray-100">
+                  <AccordionItem key={doc.id} value={`doc-${doc.id}`} className="border-0">
+                    <div className="flex items-center border-b border-gray-200">
                       <div className="flex-1 cursor-pointer" onClick={() => {}}>
-                        <AccordionTrigger className="flex w-full py-5 px-0 items-center gap-5 rounded-xl border border-teal-100 bg-gradient-to-r from-white to-teal-50 shadow-sm hover:shadow-md hover:from-teal-50 hover:to-blue-50 transition-all data-[state=open]:rounded-t-xl data-[state=open]:bg-teal-50">
+                        <AccordionTrigger className="flex w-full py-5 px-0 items-center gap-5 rounded-none  bg-white shadow-none border-none transition-all data-[state=open]:bg-white">
                           <span className="flex-1 flex items-center font-semibold text-lg pl-4">
                             {doc.name}
                           </span>
@@ -241,7 +245,7 @@ const Dashboard = () => {
                         </AccordionTrigger>
                       </div>
                     </div>
-                    <AccordionContent className="bg-teal-50 px-4 py-3 border-b border-teal-200 rounded-b-xl">
+                    <AccordionContent className="bg-teal-50 px-4 py-3 border-b border-gray-200 rounded-b-none">
                       <div className="text-gray-800 text-sm">
                         <span className="font-semibold">Összegzés:</span> {doc.summary}
                       </div>
@@ -261,3 +265,4 @@ const Dashboard = () => {
 };
 
 export default Dashboard;
+
