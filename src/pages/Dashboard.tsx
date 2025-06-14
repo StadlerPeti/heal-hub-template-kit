@@ -285,18 +285,16 @@ const Dashboard = () => {
           </div>
           {/* Feltöltött dokumentumok szekció összegzéssel */}
           <div className="bg-white rounded-2xl shadow-lg p-7 mb-14">
-            <div className="flex flex-col items-start gap-1 mb-4">
-              <span className="text-base font-semibold text-gray-800">
+            <div className="flex flex-col items-start gap-1 mb-3">
+              <span className="text-base font-semibold text-gray-800 mb-1">
                 Feltöltött dokumentumok
               </span>
-              <div className="flex gap-6 mt-1">
-                <span className="text-gray-600 text-[1.1rem] font-semibold">
-                  Összes dokumentum: <span className="font-bold">{docSummary.total}</span>
-                </span>
-                <span className="text-gray-600 text-[1.1rem] font-semibold">
-                  Összes méret: <span className="font-bold">{docSummary.size}</span>
-                </span>
-              </div>
+              <span className="text-gray-600 text-[12px] font-semibold leading-tight">
+                Összes dokumentum: <span className="font-bold">15</span>
+              </span>
+              <span className="text-gray-600 text-[12px] font-semibold leading-tight">
+                Összes méret: <span className="font-bold">5.20 MB</span>
+              </span>
             </div>
             <div className="flex items-center justify-between mb-4 mt-0">
               <div></div>
@@ -385,7 +383,10 @@ const Dashboard = () => {
                       href="#"
                       aria-disabled={page === totalPages}
                       tabIndex={page === totalPages ? -1 : undefined}
-                      style={{ pointerEvents: page === totalPages ? "none" : undefined, opacity: page === totalPages ? 0.5 : 1 }}
+                      style={{
+                        pointerEvents: page === totalPages ? "none" : undefined,
+                        opacity: page === totalPages ? 0.5 : 1,
+                      }}
                     />
                   </PaginationItem>
                 </PaginationContent>
