@@ -210,24 +210,22 @@ const Dashboard = () => {
                 Összes méret: <span className="font-bold">{docSummary.size}</span>
               </div>
             </div>
-            {/* Dokumentumok listája új formátumban összegzéssel külön sorban */}
+            {/* Dokumentumok listája */}
             <div className="w-full">
               {documents.length > 0 ? (
                 <div className="divide-y divide-gray-200">
                   {documents.map((doc) => (
-                    <div
-                      key={doc.id}
-                      className="group"
-                    >
-                      <div className="flex items-center py-5 hover:bg-gray-50 transition-colors">
+                    <div key={doc.id}>
+                      {/* Fő sor: erre jön a hover hatás */}
+                      <div
+                        className="flex items-center py-5 transition-colors hover:bg-gray-50"
+                        // csak erre alkalmazzuk a szürkítést
+                      >
                         <span className="flex-1 flex items-center font-semibold text-lg pl-4">
                           {doc.name}
                         </span>
                         <span className="w-40 text-left text-base text-gray-700">{doc.uploadedAt}</span>
                         <span className="w-24 text-left text-base text-gray-700">{doc.size}</span>
-                        <span className="hidden md:block w-60 text-xs text-gray-400 truncate">
-                          {doc.summary.slice(0, 32)}...
-                        </span>
                         <Button
                           size="sm"
                           variant="outline"
@@ -237,7 +235,8 @@ const Dashboard = () => {
                           Részletek
                         </Button>
                       </div>
-                      <div className="px-4 pb-4 -mt-2">
+                      {/* Második sor: az összegzés, sosem színeződik */}
+                      <div className="px-4 pb-4 -mt-2 bg-white">
                         <span className="block text-gray-500 text-sm">
                           <span className="font-semibold">Összegzés:</span> {doc.summary}
                         </span>
