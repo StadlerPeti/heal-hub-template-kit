@@ -21,7 +21,7 @@ import {
 } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
 import { Upload } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const chartData = [
   { name: "Jan", patients: 30, visits: 10 },
@@ -48,28 +48,110 @@ const documents = [
     name: "Lelet_1234.pdf",
     uploadedAt: "2024-06-10 13:04",
     size: "1.2 MB",
+    summary:
+      "Laborlelet: minden érték a határértéken belül. Nincs eltérés.",
   },
   {
     id: 2,
     name: "Laboreredmény_5632.png",
     uploadedAt: "2024-06-12 10:22",
     size: "800 KB",
+    summary: "Kiemelt: glükóz emelkedett, további kontroll javasolt.",
   },
   {
     id: 3,
     name: "TAJ_igazolas.docx",
     uploadedAt: "2024-06-13 09:19",
     size: "420 KB",
+    summary: "TAJ kártya igazolás, nincs orvosi tartalom.",
+  },
+];
+
+// Összegző statiszika a dokumentumokról
+function getDocumentsSummary() {
+  const total = documents.length;
+  const sizeMB = documents
+    .map((doc) => {
+      if (doc.size.includes("MB")) return parseFloat(doc.size);
+      if (doc.size.includes("KB")) return parseFloat(doc.size) / 1024;
+      return 0;
+    })
+    .reduce((a, b) => a + b, 0);
+  return {
+    total,
+    size: sizeMB.toFixed(2) + " MB",
+  };
+}
+
+const recommendations = [
+  {
+    type: "vizsgálat",
+    label: "Általános vérkép ellenőrzés",
+    reason: "Éves rutin javaslat",
+  },
+  {
+    type: "vizsgálat",
+    label: "Szemészeti szűrővizsgálat",
+    reason: "Elmúlt 40 éves",
+  },
+  {
+    type: "orvos",
+    label: "Dr. Nagy Ilona (kardiológus)",
+    reason: "Családban örökletes magas vérnyomás",
   },
 ];
 
 const Dashboard = () => {
+  const navigate = useNavigate();
+  const docSummary = getDocumentsSummary();
+
   return (
     <div className="bg-gradient-to-br from-teal-50 via-blue-50 to-white min-h-screen w-full flex flex-col">
       <Navbar />
       <main className="flex-grow pt-28 flex flex-col items-center justify-start">
         <div className="w-full max-w-7xl px-4">
-          <h1 className="text-3xl font-bold text-gray-900 mb-8 text-center">Dashboard áttekintés</h1>
+          {/* Egészségügyi állapot rövid összefoglaló */}
+          <div className="mb-8">
+            <div className="bg-white rounded-2xl shadow-md border border-teal-200 p-7 flex items-center">
+              <span className="text-3xl text-teal-600 font-bold mr-5">🩺</span>
+              <div>
+                <h2 className="font-semibold text-lg text-gray-800 mb-1">
+                  Egészségügyi állapot összefoglaló
+                </h2>
+                <p className="text-gray-700">
+                  Ön jó egészségi állapotban van. Az utóbbi vizsgálatok alapján minden fő laborparaméter rendben van. 
+                  Az éves általános szűrést elvégezte. Jelenleg nincsenek aktív kezelést igénylő betegségek.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* Ajánlott vizsgálatok és orvosok */}
+          <div className="mb-8">
+            <div className="bg-white rounded-2xl shadow-md border border-blue-200 p-7">
+              <h2 className="font-semibold text-lg text-blue-800 mb-3">Ajánlások</h2>
+              <ul className="space-y-2">
+                {recommendations.map((rec, idx) => (
+                  <li
+                    key={idx}
+                    className="flex items-start gap-4"
+                  >
+                    <span className={`text-2xl`}>
+                      {rec.type === "vizsgálat" ? "🧪" : "👩‍⚕️"}
+                    </span>
+                    <div>
+                      <span className="font-medium">{rec.label}</span>
+                      <div className="text-gray-600 text-sm">
+                        {rec.reason}
+                      </div>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+
+          {/* Statisztika grafikon */}
           <div className="mb-12 bg-white rounded-2xl shadow-xl p-7">
             <h2 className="font-semibold mb-4 text-gray-800">Statisztika</h2>
             <div className="w-full h-[300px]">
@@ -85,6 +167,8 @@ const Dashboard = () => {
               </ResponsiveContainer>
             </div>
           </div>
+
+          {/* Tile-ok */}
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 mb-12">
             {tiles.map((tile) => (
               <div
@@ -97,6 +181,7 @@ const Dashboard = () => {
               </div>
             ))}
           </div>
+          {/* Feltöltött dokumentumok szekció összegzéssel */}
           <div className="bg-white rounded-2xl shadow-lg p-7 mb-14">
             <div className="flex items-center justify-between mb-4">
               <h2 className="font-semibold text-gray-800 text-lg">Feltöltött dokumentumok</h2>
@@ -104,7 +189,6 @@ const Dashboard = () => {
                 asChild
                 size="sm"
                 className="gap-2 font-semibold bg-gradient-to-r from-teal-500 to-blue-500 text-white border-0 shadow hover:from-teal-600 hover:to-blue-600 transition-colors"
-                // nem használok variant-et, hogy felülírjam az alap variant színét
               >
                 <Link to="/upload">
                   <Upload className="w-4 h-4" />
@@ -112,12 +196,23 @@ const Dashboard = () => {
                 </Link>
               </Button>
             </div>
+            {/* Összefoglaló adatok */}
+            <div className="flex flex-wrap gap-6 mb-6">
+              <div className="bg-teal-50 border border-teal-200 rounded-lg px-5 py-3 text-teal-900 font-medium shadow-sm">
+                Összes dokumentum: <span className="font-bold">{docSummary.total}</span>
+              </div>
+              <div className="bg-blue-50 border border-blue-200 rounded-lg px-5 py-3 text-blue-900 font-medium shadow-sm">
+                Összes méret: <span className="font-bold">{docSummary.size}</span>
+              </div>
+            </div>
             <Table>
               <TableHeader>
                 <TableRow>
                   <TableHead>Dokumentum neve</TableHead>
                   <TableHead>Feltöltés ideje</TableHead>
                   <TableHead>Méret</TableHead>
+                  <TableHead>Összegzés</TableHead>
+                  <TableHead></TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -127,11 +222,24 @@ const Dashboard = () => {
                       <TableCell className="font-semibold">{doc.name}</TableCell>
                       <TableCell>{doc.uploadedAt}</TableCell>
                       <TableCell>{doc.size}</TableCell>
+                      <TableCell>
+                        <span className="text-gray-600 text-xs">{doc.summary}</span>
+                      </TableCell>
+                      <TableCell>
+                        <Button
+                          size="sm"
+                          variant="outline"
+                          className="border-teal-500 text-teal-700 hover:bg-teal-50"
+                          onClick={() => navigate(`/document/${doc.id}`)}
+                        >
+                          Részletek
+                        </Button>
+                      </TableCell>
                     </TableRow>
                   ))
                 ) : (
                   <TableRow>
-                    <TableCell colSpan={3} className="text-center">
+                    <TableCell colSpan={5} className="text-center">
                       Nincs feltöltött dokumentum.
                     </TableCell>
                   </TableRow>
