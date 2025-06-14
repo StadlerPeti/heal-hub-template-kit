@@ -296,8 +296,8 @@ const Dashboard = () => {
                 Összes méret: <span className="font-bold">5.20 MB</span>
               </span>
             </div>
+            {/* Feltöltés gomb közvetlenül az összegző alatt */}
             <div className="flex items-center justify-between mb-4 mt-0">
-              <div></div>
               <Button
                 asChild
                 size="sm"
@@ -308,6 +308,7 @@ const Dashboard = () => {
                   Dokumentum feltöltése
                 </Link>
               </Button>
+              <div></div>
             </div>
             <div className="w-full">
               {documents.length > 0 ? (
@@ -357,7 +358,7 @@ const Dashboard = () => {
                       href="#"
                       aria-disabled={page === 1}
                       tabIndex={page === 1 ? -1 : undefined}
-                      style={{ pointerEvents: page === 1 ? "none" : undefined , opacity: page === 1 ? 0.5 : 1 }}
+                      style={{ pointerEvents: page === 1 ? "none" : undefined, opacity: page === 1 ? 0.5 : 1 }}
                     />
                   </PaginationItem>
                   {Array.from({ length: totalPages }).map((_, i) => (
