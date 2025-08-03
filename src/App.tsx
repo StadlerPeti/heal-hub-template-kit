@@ -24,12 +24,21 @@ const App = () => (
       <Sonner />
       <BrowserRouter>
         <Routes>
-          <Route path='/' element={<Index />} />
-          <Route path='/login' element={<Login />} />
-          <Route path='/dashboard' element={<Dashboard />} />
+          <Route path='/heal-hub-template-kit' element={<Index />} />
+          <Route path='/heal-hub-template-kit/login' element={<Login />} />
+          <Route
+            path='/heal-hub-template-kit/dashboard'
+            element={<Dashboard />}
+          />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-          <Route path='/upload' element={<DocumentUpload />} />
-          <Route path='/document/:id' element={<DocumentSummary />} />
+          <Route
+            path='/heal-hub-template-kit/upload'
+            element={<DocumentUpload />}
+          />
+          <Route
+            path='/heal-hub-template-kit/document/:id'
+            element={<DocumentSummary />}
+          />
           <Route path='*' element={<NotFound />} />
         </Routes>
       </BrowserRouter>
