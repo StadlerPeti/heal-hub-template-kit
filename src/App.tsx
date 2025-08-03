@@ -1,16 +1,21 @@
-import { Toaster } from "@/components/ui/toaster";
-import { Toaster as Sonner } from "@/components/ui/sonner";
-import { TooltipProvider } from "@/components/ui/tooltip";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Index from "./pages/Index";
-import NotFound from "./pages/NotFound";
-import DocumentUpload from "./pages/DocumentUpload";
-import Login from "./pages/Login";
-import Dashboard from "./pages/Dashboard";
-import DocumentSummary from "./pages/DocumentSummary";
+import { Toaster } from '@/components/ui/toaster'
+import { Toaster as Sonner } from '@/components/ui/sonner'
+import { TooltipProvider } from '@/components/ui/tooltip'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import Index from './pages/Index'
+import NotFound from './pages/NotFound'
+import DocumentUpload from './pages/DocumentUpload'
+import Login from './pages/Login'
+import Dashboard from './pages/Dashboard'
+import DocumentSummary from './pages/DocumentSummary'
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient()
+
+const password = prompt('Enter password:')
+if (password !== 'asdasd12345') {
+  document.body.innerHTML = 'Access denied.'
+}
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
@@ -19,17 +24,17 @@ const App = () => (
       <Sonner />
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Index />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path='/' element={<Index />} />
+          <Route path='/login' element={<Login />} />
+          <Route path='/dashboard' element={<Dashboard />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-          <Route path="/upload" element={<DocumentUpload />} />
-          <Route path="/document/:id" element={<DocumentSummary />} />
-          <Route path="*" element={<NotFound />} />
+          <Route path='/upload' element={<DocumentUpload />} />
+          <Route path='/document/:id' element={<DocumentSummary />} />
+          <Route path='*' element={<NotFound />} />
         </Routes>
       </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>
-);
+)
 
-export default App;
+export default App
