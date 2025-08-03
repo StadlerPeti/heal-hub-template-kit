@@ -22,23 +22,14 @@ const App = () => (
     <TooltipProvider>
       <Toaster />
       <Sonner />
-      <BrowserRouter>
+      <BrowserRouter basename='/heal-hub-template-kit'>
         <Routes>
-          <Route path='/heal-hub-template-kit' element={<Index />} />
-          <Route path='/heal-hub-template-kit/login' element={<Login />} />
-          <Route
-            path='/heal-hub-template-kit/dashboard'
-            element={<Dashboard />}
-          />
+          <Route path='/' element={<Index />} />
+          <Route path='/login' element={<Login />} />
+          <Route path='/dashboard' element={<Dashboard />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-          <Route
-            path='/heal-hub-template-kit/upload'
-            element={<DocumentUpload />}
-          />
-          <Route
-            path='/heal-hub-template-kit/document/:id'
-            element={<DocumentSummary />}
-          />
+          <Route path='/upload' element={<DocumentUpload />} />
+          <Route path='/document/:id' element={<DocumentSummary />} />
           <Route path='*' element={<NotFound />} />
         </Routes>
       </BrowserRouter>
